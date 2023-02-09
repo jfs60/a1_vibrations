@@ -31,33 +31,23 @@ def choose_range(time, initial_signal):
     plt.show()
     return cut_signal, no_of_samples
 
-def freq_response(w_list, M, L, K, F):
-
-    """Return complex frequency response of system"""
-
-    return np.array(
-        [np.linalg.solve(-w*w * M + 1j * w * L + K, F) for w in w_list]
-    )
-
-def last_nonzero(arr, axis, invalid_val=-1):
-
-    """Return index of last non-zero element of an array"""
-
-    mask = (arr != 0)
-    val = arr.shape[axis] - np.flip(mask, axis=axis).argmax(axis=axis) - 1
-    return np.where(mask.any(axis=axis), val, invalid_val)
-
-
-
 
 
 
 def applying_fft(signal_analysed, samples): 
-    fft_signal = fft(signal_analysed)
+    sample_rate = 10001/30
+    duration = 30
+    # Number of samples in normalized_tone
+    N = int (sample_rate * duration)
 
-    N = len(fft_signal)
+    yf = fft(signal_analysed)
+    xf = fftfreq(N, 1 / sample_rate)
+
+    plt.plot(xf, np.abs(yf))
+    plt.show()
+""" N = len(fft_signal)
     n = np.arange(N)
-    T = N/(10)
+    T = N/(samples/)
     freq = n/T 
 
     plt.xlabel('Freq (Hz)')
@@ -78,10 +68,10 @@ def applying_fft(signal_analysed, samples):
     plt.ylabel('Normalized FFT Amplitude |X(freq)|')
     plt.tight_layout()
     plt.show()
-    #sample_spacing = 1/5
+    #sample_spacing = 1/5"""
 
 
-    """x = np.linspace(0.0, sample_spacing*samples, samples, endpoint=False)
+"""x = np.linspace(0.0, sample_spacing*samples, samples, endpoint=False)
     xf = fftfreq(samples, sample_spacing)[:samples]
     plt.plot(xf, 2.0/samples * np.abs(fft_signal[0:samples]))
     plt.grid()
